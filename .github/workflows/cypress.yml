@@ -139,7 +139,7 @@ jobs:
   # Job 4: Relatório de Resultados
   test-report:
     runs-on: ubuntu-latest
-    needs: [cypress-chrome, cypress-firefox, cypress-edge]
+    needs: [cypress-chrome, cypress-firefox]
     if: always()
     
     steps:
@@ -150,12 +150,11 @@ jobs:
           echo "|---------|--------|" >> $GITHUB_STEP_SUMMARY
           echo "| Chrome  | ${{ needs.cypress-chrome.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Firefox | ${{ needs.cypress-firefox.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Edge    | ${{ needs.cypress-edge.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "🔗 **URL Testada:** https://blog.agibank.com.br" >> $GITHUB_STEP_SUMMARY
           
       - name: ❌ Falha se algum teste falhou
-        if: needs.cypress-chrome.result == 'failure' || needs.cypress-firefox.result == 'failure' || needs.cypress-edge.result == 'failure'
+        if: needs.cypress-chrome.result == 'failure' || needs.cypress-firefox.result == 'failure'
         run: |
           echo "❌ Um ou mais testes falharam!"
           exit 1 

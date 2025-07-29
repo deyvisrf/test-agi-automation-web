@@ -184,6 +184,77 @@ npx cypress run --grep "Newsletter"
 
 ---
 
+## 🚀 **CI/CD Pipeline**
+
+### **🔄 GitHub Actions Workflow**
+
+O projeto possui um pipeline automatizado que executa testes em **3 browsers diferentes** com relatórios detalhados.
+
+#### **📋 Jobs Executados**
+
+| Job | Browser | Finalidade |
+|-----|---------|------------|
+| `cypress-chrome` | Chrome | Testes principais de compatibilidade |
+| `cypress-firefox` | Firefox | Validação cross-browser |
+| `cypress-edge` | Edge | Cobertura completa de browsers |
+| `test-report` | - | Consolidação e relatório de resultados |
+
+#### **⚡ Triggers de Execução**
+
+```yaml
+# Execução automática em:
+✅ Push para: main, master, develop
+✅ Pull Requests para: main, master, develop  
+✅ Agendamento: Diariamente às 9h UTC (6h BRT)
+✅ Manual: Via workflow_dispatch
+```
+
+#### **📊 Relatório Automatizado**
+
+Após cada execução, é gerado um relatório com:
+- ✅ **Status por browser** (Sucesso/Falha)
+- ✅ **URL testada** (https://blog.agibank.com.br)
+- ✅ **Sumário consolidado** no GitHub Actions
+
+#### **📁 Artifacts Salvos**
+
+**Screenshots (em falhas):**
+```
+cypress/screenshots/
+├── cypress-screenshots-chrome/
+├── cypress-screenshots-firefox/
+└── cypress-screenshots-edge/
+```
+
+**Vídeos:**
+```
+cypress/videos/
+└── cypress-videos-chrome/
+```
+*Retenção: 7 dias*
+
+#### **🔐 Configuração de Secrets**
+
+Para funcionar completamente, configure no GitHub:
+
+```bash
+# Secrets necessários (Settings > Secrets and variables > Actions)
+CYPRESS_RECORD_KEY=your_cypress_dashboard_key
+GITHUB_TOKEN=automatically_provided
+```
+
+#### **🎯 Pipeline Status**
+
+[![Cypress E2E Tests](https://github.com/SEU_USUARIO/test-agi-automation-web/actions/workflows/cypress.yml/badge.svg)](https://github.com/SEU_USUARIO/test-agi-automation-web/actions/workflows/cypress.yml)
+
+**Execução local que simula CI:**
+```bash
+npm run ci
+# Equivale a: cypress run --headless --browser chrome
+```
+
+---
+
 ## 🐛 **Troubleshooting**
 
 ### **❓ Problemas Comuns**
