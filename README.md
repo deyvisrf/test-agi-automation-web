@@ -1,5 +1,6 @@
 # 🚀 **Blog AGI - Automação de Testes E2E**
 
+[![Cypress E2E Tests](https://github.com/SEU_USUARIO/test-agi-automation-web/actions/workflows/cypress.yml/badge.svg)](https://github.com/SEU_USUARIO/test-agi-automation-web/actions/workflows/cypress.yml)
 [![Cypress](https://img.shields.io/badge/Cypress-17202C?style=for-the-badge&logo=cypress&logoColor=white)](https://cypress.io)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
 [![Blog AGI](https://img.shields.io/badge/Blog-AGI-blue?style=for-the-badge)](https://blog.agibank.com.br)

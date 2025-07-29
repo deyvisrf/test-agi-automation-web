@@ -1,0 +1,41 @@
+name: 🔍 Cypress Simple CI
+
+# Este workflow é uma versão simplificada - use apenas se preferir algo mais básico
+# Para usar este em vez do completo, renomeie este arquivo para 'cypress.yml' 
+# e renomeie o outro para 'cypress-full.yml'
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🧪 Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+
+      - name: 📸 Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          retention-days: 3 

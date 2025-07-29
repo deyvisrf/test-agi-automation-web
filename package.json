@@ -8,8 +8,10 @@
     "test:open": "cypress open",
     "test:headless": "cypress run --headless",
     "test:chrome": "cypress run --browser chrome",
+    "test:firefox": "cypress run --browser firefox",
     "test:edge": "cypress run --browser edge",
-    "test:spec": "cypress run --spec"
+    "test:spec": "cypress run --spec",
+    "ci": "cypress run --headless --browser chrome"
   },
   "keywords": [
     "cypress",

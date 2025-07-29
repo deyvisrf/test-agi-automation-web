@@ -1,0 +1,161 @@
+name: 🚀 Cypress E2E Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  schedule:
+    # Executa diariamente às 9h UTC (6h BRT)
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Permite execução manual
+
+jobs:
+  # Job 1: Testes no Chrome
+  cypress-chrome:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1] # Pode aumentar para paralelização
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      - name: 🧪 Executar testes Cypress (Chrome)
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          headless: true
+          config-file: cypress.config.js
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📸 Upload screenshots (falhas)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots-chrome
+          path: cypress/screenshots
+          retention-days: 7
+
+      - name: 🎥 Upload videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos-chrome
+          path: cypress/videos
+          retention-days: 7
+
+  # Job 2: Testes no Firefox
+  cypress-firefox:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1]
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      - name: 🧪 Executar testes Cypress (Firefox)
+        uses: cypress-io/github-action@v6
+        with:
+          browser: firefox
+          headless: true
+          config-file: cypress.config.js
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📸 Upload screenshots (falhas)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots-firefox
+          path: cypress/screenshots
+          retention-days: 7
+
+  # Job 3: Testes no Edge
+  cypress-edge:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1]
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      - name: 🧪 Executar testes Cypress (Edge)
+        uses: cypress-io/github-action@v6
+        with:
+          browser: edge
+          headless: true
+          config-file: cypress.config.js
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📸 Upload screenshots (falhas)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots-edge
+          path: cypress/screenshots
+          retention-days: 7
+
+  # Job 4: Relatório de Resultados
+  test-report:
+    runs-on: ubuntu-latest
+    needs: [cypress-chrome, cypress-firefox, cypress-edge]
+    if: always()
+    
+    steps:
+      - name: 📊 Status dos Testes
+        run: |
+          echo "## 📋 Relatório de Testes E2E" >> $GITHUB_STEP_SUMMARY
+          echo "| Browser | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Chrome  | ${{ needs.cypress-chrome.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Firefox | ${{ needs.cypress-firefox.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Edge    | ${{ needs.cypress-edge.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **URL Testada:** https://blog.agibank.com.br" >> $GITHUB_STEP_SUMMARY
+          
+      - name: ❌ Falha se algum teste falhou
+        if: needs.cypress-chrome.result == 'failure' || needs.cypress-firefox.result == 'failure' || needs.cypress-edge.result == 'failure'
+        run: |
+          echo "❌ Um ou mais testes falharam!"
+          exit 1 
