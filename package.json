@@ -1,0 +1,35 @@
+{
+  "name": "test-agi-automation-web",
+  "version": "1.0.0",
+  "description": "Suite de testes automatizados E2E para validação das funcionalidades críticas do Blog da Agibank",
+  "main": "cypress.config.js",
+  "scripts": {
+    "test": "cypress run",
+    "test:open": "cypress open",
+    "test:headless": "cypress run --headless",
+    "test:chrome": "cypress run --browser chrome",
+    "test:edge": "cypress run --browser edge",
+    "test:spec": "cypress run --spec"
+  },
+  "keywords": [
+    "cypress",
+    "e2e",
+    "testing",
+    "automation",
+    "agibank",
+    "blog"
+  ],
+  "author": "Deyvi",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^14.5.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SEU_USUARIO/test-agi-automation-web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SEU_USUARIO/test-agi-automation-web/issues"
+  },
+  "homepage": "https://github.com/SEU_USUARIO/test-agi-automation-web#readme"
+} 
