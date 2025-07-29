@@ -108,27 +108,45 @@ cy.teste('inteligência artificial')
 
 ### **📋 Pré-requisitos**
 ```bash
-# Node.js 16+ instalado
+# 1. Node.js 16+ instalado (obrigatório)
 node --version
+npm --version
 
-# Cypress instalado globalmente (opcional)
+# 2. Cypress instalado globalmente (opcional - pode usar npx)
 npm install -g cypress
 ```
+
+**💡 Dica:** Se não quiser instalar Cypress globalmente, use `npx` nos comandos.
 
 ### **⚡ Execução Rápida**
 
 ```bash
-# Modo interativo (recomendado para desenvolvimento)
+# 1. Instalar dependências (primeira vez)
+npm install
+
+# 2. Modo interativo (recomendado para desenvolvimento)
 npx cypress open
 
-# Modo headless (CI/CD)
+# 3. Modo headless (CI/CD)
 npx cypress run
 
-# Executar teste específico
+# 4. Executar teste específico
 npx cypress run --spec "cypress/e2e/spec.cy.js"
 
-# Executar com browser específico
+# 5. Executar com browser específico
 npx cypress run --browser chrome
+```
+
+### **🎯 Scripts NPM Disponíveis**
+
+```bash
+# Scripts configurados no package.json
+npm test              # cypress run
+npm run test:open     # cypress open
+npm run test:chrome   # cypress run --browser chrome
+npm run test:firefox  # cypress run --browser firefox
+npm run test:edge     # cypress run --browser edge
+npm run ci            # cypress run --headless --browser chrome
 ```
 
 ### **🎯 Execução por Cenário**
@@ -249,8 +267,7 @@ GITHUB_TOKEN=automatically_provided
 
 **Execução local que simula CI:**
 ```bash
-npm run ci
-# Equivale a: cypress run --headless --browser chrome
+npm run ci  # Ver seção "Scripts NPM Disponíveis" para mais opções
 ```
 
 ---
@@ -294,9 +311,17 @@ cy.contains('Resultados', {timeout: 15000})
 ## 🤝 **Contribuição**
 
 ### **🔧 Setup para Desenvolvimento**
-1. Clone o repositório
-2. Instale dependências: `npm install`
-3. Execute testes: `npx cypress open`
+```bash
+# 1. Clone o repositório
+git clone <seu-repositorio>
+cd test-agi-automation-web
+
+# 2. Instale dependências
+npm install
+
+# 3. Execute testes
+npx cypress open
+```
 
 ### **📝 Padrões de Código**
 - Nomenclatura descritiva para testes
